@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-public class GalbaatUser : IdentityUser
+public class User : IdentityUser
 {
     public ICollection<Post> Posts { get; set; }
 }

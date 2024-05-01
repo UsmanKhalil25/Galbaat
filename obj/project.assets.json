@@ -8567,19 +8567,19 @@
     ]
   },
   "packageFolders": {
-    "/home/verdant-soft/.nuget/packages/": {}
+    "/home/usman/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/verdant-soft/dotnet/Galbaat/Galbaat.csproj",
+      "projectUniqueName": "/home/usman/Code/Galbaat/Galbaat.csproj",
       "projectName": "Galbaat",
-      "projectPath": "/home/verdant-soft/dotnet/Galbaat/Galbaat.csproj",
-      "packagesPath": "/home/verdant-soft/.nuget/packages/",
-      "outputPath": "/home/verdant-soft/dotnet/Galbaat/obj/",
+      "projectPath": "/home/usman/Code/Galbaat/Galbaat.csproj",
+      "packagesPath": "/home/usman/.nuget/packages/",
+      "outputPath": "/home/usman/Code/Galbaat/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/verdant-soft/.nuget/NuGet/NuGet.Config"
+        "/home/usman/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"

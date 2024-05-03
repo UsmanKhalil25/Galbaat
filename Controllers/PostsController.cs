@@ -19,11 +19,6 @@ namespace Galbaat.Controllers
             _context = context;
         }
 
-        // GET: Posts
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Post.ToListAsync());
-        }
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -49,22 +44,7 @@ namespace Galbaat.Controllers
             return View();
         }
 
-        // POST: Posts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content")] Post post)
-        {
-            if (ModelState.IsValid)
-            {
-                post.Timestamp =  DateTime.UtcNow;
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(post);
-        }
+
 
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)

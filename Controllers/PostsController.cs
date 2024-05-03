@@ -6,25 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Galbaat.Data;
+using NuGet.Common;
 
 namespace Galbaat.Controllers
 {
-    public class PostController : Controller
+    public class PostsController : Controller
     {
         private readonly GalbaatContext _context;
 
-        public PostController(GalbaatContext context)
+        public PostsController(GalbaatContext context)
         {
             _context = context;
         }
 
-        // GET: Post
+        // GET: Posts
         public async Task<IActionResult> Index()
         {
             return View(await _context.Post.ToListAsync());
         }
 
-        // GET: Post/Details/5
+        // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,21 +43,22 @@ namespace Galbaat.Controllers
             return View(post);
         }
 
-        // GET: Post/Create
+        // GET: Posts/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Post/Create
+        // POST: Posts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content,Timestamp")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,Content")] Post post)
         {
             if (ModelState.IsValid)
             {
+                post.Timestamp =  DateTime.UtcNow;
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -64,7 +66,7 @@ namespace Galbaat.Controllers
             return View(post);
         }
 
-        // GET: Post/Edit/5
+        // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,7 +82,7 @@ namespace Galbaat.Controllers
             return View(post);
         }
 
-        // POST: Post/Edit/5
+        // POST: Posts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -115,7 +117,7 @@ namespace Galbaat.Controllers
             return View(post);
         }
 
-        // GET: Post/Delete/5
+        // GET: Posts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,7 +135,7 @@ namespace Galbaat.Controllers
             return View(post);
         }
 
-        // POST: Post/Delete/5
+        // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

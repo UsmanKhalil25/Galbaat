@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Galbaat.Migrations.Galbaat
 {
     [DbContext(typeof(GalbaatContext))]
-    [Migration("20240501133421_PostsCreate")]
-    partial class PostsCreate
+    [Migration("20240504202802_AddPostModel")]
+    partial class AddPostModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,7 @@ namespace Galbaat.Migrations.Galbaat
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -98,15 +99,12 @@ namespace Galbaat.Migrations.Galbaat
             modelBuilder.Entity("Post", b =>
                 {
                     b.HasOne("User", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("User", b =>
-                {
-                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

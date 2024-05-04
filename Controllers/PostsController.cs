@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Galbaat.Data;
-using NuGet.Common;
 
 namespace Galbaat.Controllers
 {
@@ -19,6 +18,12 @@ namespace Galbaat.Controllers
             _context = context;
         }
 
+        // GET: Posts
+        public async Task<IActionResult> Index()
+        {
+            var galbaatContext = _context.Post.Include(p => p.User);
+            return View(await galbaatContext.ToListAsync());
+        }
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -29,6 +34,7 @@ namespace Galbaat.Controllers
             }
 
             var post = await _context.Post
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {
@@ -41,10 +47,27 @@ namespace Galbaat.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.Set<User>(), "Id", "Id");
             return View();
         }
 
-
+        // POST: Posts/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Content,Timestamp,UserId")] Post post)
+        {   Console.Write("Inside create");
+            if (!ModelState.IsValid)
+            {
+                _context.Add(post);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(post);
+            // ViewData["UserId"] = new SelectList(_context.Set<User>(), "Id", "Id", post.UserId);
+            // return View(post);
+        }
 
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -59,6 +82,7 @@ namespace Galbaat.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserId"] = new SelectList(_context.Set<User>(), "Id", "Id", post.UserId);
             return View(post);
         }
 
@@ -67,7 +91,7 @@ namespace Galbaat.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Content,Timestamp")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Content,Timestamp,UserId")] Post post)
         {
             if (id != post.Id)
             {
@@ -94,6 +118,7 @@ namespace Galbaat.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.Set<User>(), "Id", "Id", post.UserId);
             return View(post);
         }
 
@@ -106,6 +131,7 @@ namespace Galbaat.Controllers
             }
 
             var post = await _context.Post
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {

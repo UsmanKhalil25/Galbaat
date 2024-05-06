@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Galbaat.Migrations.Galbaat
 {
     [DbContext(typeof(GalbaatContext))]
-    [Migration("20240504202802_AddPostModel")]
+    [Migration("20240506082538_AddPostModel")]
     partial class AddPostModel
     {
         /// <inheritdoc />

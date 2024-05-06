@@ -47,7 +47,7 @@ namespace Galbaat.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Set<User>(), "Id", "Id");
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
             return View();
         }
 
@@ -57,16 +57,13 @@ namespace Galbaat.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Content,Timestamp,UserId")] Post post)
-        {   Console.Write("Inside create");
-            if (!ModelState.IsValid)
-            {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+        {   
+            _context.Add(post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", post.UserId);
             return View(post);
-            // ViewData["UserId"] = new SelectList(_context.Set<User>(), "Id", "Id", post.UserId);
-            // return View(post);
         }
 
         // GET: Posts/Edit/5
@@ -82,7 +79,7 @@ namespace Galbaat.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Set<User>(), "Id", "Id", post.UserId);
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", post.UserId);
             return View(post);
         }
 
@@ -118,7 +115,7 @@ namespace Galbaat.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Set<User>(), "Id", "Id", post.UserId);
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", post.UserId);
             return View(post);
         }
 

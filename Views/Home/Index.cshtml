@@ -16,10 +16,13 @@
     {
         <div class="container w-100">
             <h4>New Post</h4>
-            <form asp-controller="Home" asp-action="Create">
+            <form asp-action="Create" asp-controller="Home">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <textarea name="Content"  placeholder="Let them know your are alive" class="w-100 form-control" rows="6"></textarea>
+                    <textarea name="Content" placeholder="Let them know your are alive" class="w-100 form-control" rows="6"></textarea>
+                </div>
+                <div class="form-group">
+                    <input name="UserId" hidden value="@UserManager.GetUserId(User)" />
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Post" class="btn btn-primary mt-2" />

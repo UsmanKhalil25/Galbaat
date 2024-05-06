@@ -29,22 +29,19 @@ public class HomeController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Content")] Post post)
-    {
-        if (ModelState.IsValid)
-        {
-            DateTime utcNow = DateTime.UtcNow;
-            TimeZoneInfo pstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pakistan Standard Time");
-            DateTime pakistaniTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, pstTimeZone);
+    public async Task<IActionResult> Create([Bind("Id,Content,UserId")] Post post)
+    {   
+        DateTime utcNow = DateTime.UtcNow;
+        TimeZoneInfo pstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pakistan Standard Time");
+        DateTime pakistaniTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, pstTimeZone);
+        post.Timestamp = pakistaniTime;
+        _context.Add(post);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
 
-            post.Timestamp = pakistaniTime;
-            _context.Add(post);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        return View(post);
     }
-        
+
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

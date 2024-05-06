@@ -14,7 +14,7 @@ namespace Galbaat.Data
             : base(options)
         {
         }
-
-        public DbSet<Post> Post { get; set; } 
+        public DbSet<Post> Post{get;set;}
+        public DbSet<User> User { get; set; }
     }
 }

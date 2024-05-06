@@ -9,4 +9,6 @@ public class AppUser : IdentityUser
     [MaxLength(100)]
     [Required]
     public string? Name { get; set; }
+
+    public ICollection<Post>? Posts { get; set; }
 }

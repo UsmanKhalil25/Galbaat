@@ -10,4 +10,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
     {
 
     }
+    public DbSet<Galbaat.Models.AppUser> AppUser {get;set;}
+    public DbSet<Galbaat.Models.Post> Post { get; set; } 
 }

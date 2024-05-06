@@ -1,19 +1,29 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Galbaat.Areas.Identity.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Galbaat.Data;
+using Galbaat.Models;
+
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<GalbaatContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("GalbaatContext") ?? throw new InvalidOperationException("Connection string 'GalbaatContext' not found.")));
-var connectionString = builder.Configuration.GetConnectionString("GalbaatIdentityDbContextConnection") ?? throw new InvalidOperationException("Connection string 'GalbaatIdentityDbContextConnection' not found.");
 
-builder.Services.AddDbContext<GalbaatIdentityDbContext>(options => options.UseSqlite(connectionString));
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<GalbaatIdentityDbContext>();
+var connectionString = builder.Configuration.GetConnectionString("default");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<AppDbContext>(
+    options =>options.UseSqlite(connectionString));
+
+builder.Services.AddIdentity<AppUser, IdentityRole>(
+    options =>
+    {
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 8;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireLowercase = false;
+    })
+    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -35,7 +45,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapRazorPages();
 
 app.Run();

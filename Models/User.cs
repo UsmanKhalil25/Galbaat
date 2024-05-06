@@ -1,6 +1,12 @@
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-public class User : IdentityUser
+namespace Galbaat.Models;
+
+public class AppUser : IdentityUser
 {
+    [StringLength(100)]
+    [MaxLength(100)]
+    [Required]
+    public string? Name { get; set; }
 }

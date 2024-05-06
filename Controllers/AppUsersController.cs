@@ -6,91 +6,89 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Galbaat.Data;
+using Galbaat.Models;
 
 namespace Galbaat.Controllers
 {
-    public class PostsController : Controller
+    public class AppUsersController : Controller
     {
-        private readonly GalbaatContext _context;
+        private readonly AppDbContext _context;
 
-        public PostsController(GalbaatContext context)
+        public AppUsersController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Posts
+        // GET: AppUsers
         public async Task<IActionResult> Index()
         {
-            var galbaatContext = _context.Post.Include(p => p.User);
-            return View(await galbaatContext.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Posts/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: AppUsers/Details/5
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var post = await _context.Post
-                .Include(p => p.User)
+            var appUser = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (post == null)
+            if (appUser == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View(appUser);
         }
 
-        // GET: Posts/Create
+        // GET: AppUsers/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
             return View();
         }
 
-        // POST: Posts/Create
+        // POST: AppUsers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content,Timestamp,UserId")] Post post)
-        {   
-            _context.Add(post);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", post.UserId);
-            return View(post);
+        public async Task<IActionResult> Create([Bind("Name,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] AppUser appUser)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(appUser);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(appUser);
         }
 
-        // GET: Posts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: AppUsers/Edit/5
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var post = await _context.Post.FindAsync(id);
-            if (post == null)
+            var appUser = await _context.Users.FindAsync(id);
+            if (appUser == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", post.UserId);
-            return View(post);
+            return View(appUser);
         }
 
-        // POST: Posts/Edit/5
+        // POST: AppUsers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Content,Timestamp,UserId")] Post post)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] AppUser appUser)
         {
-            if (id != post.Id)
+            if (id != appUser.Id)
             {
                 return NotFound();
             }
@@ -99,12 +97,12 @@ namespace Galbaat.Controllers
             {
                 try
                 {
-                    _context.Update(post);
+                    _context.Update(appUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PostExists(post.Id))
+                    if (!AppUserExists(appUser.Id))
                     {
                         return NotFound();
                     }
@@ -115,47 +113,45 @@ namespace Galbaat.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", post.UserId);
-            return View(post);
+            return View(appUser);
         }
 
-        // GET: Posts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: AppUsers/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var post = await _context.Post
-                .Include(p => p.User)
+            var appUser = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (post == null)
+            if (appUser == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View(appUser);
         }
 
-        // POST: Posts/Delete/5
+        // POST: AppUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var post = await _context.Post.FindAsync(id);
-            if (post != null)
+            var appUser = await _context.Users.FindAsync(id);
+            if (appUser != null)
             {
-                _context.Post.Remove(post);
+                _context.Users.Remove(appUser);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PostExists(int id)
+        private bool AppUserExists(string id)
         {
-            return _context.Post.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

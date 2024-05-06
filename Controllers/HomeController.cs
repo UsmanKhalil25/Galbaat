@@ -1,47 +1,22 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Galbaat.Models;
-using Galbaat.Data;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Galbaat.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-    private readonly GalbaatContext _context;
-    public HomeController(ILogger<HomeController> logger, GalbaatContext context)
-    {
-        _logger = logger;
-        _context = context;
-    }
-
-    public async Task<IActionResult> Index()
-    {
-        return View(await _context.Post.OrderByDescending(p => p.Timestamp).ToListAsync());
-    }
-
-    
-    public IActionResult Following()
+    public IActionResult Index()
     {
         return View();
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Content,UserId")] Post post)
-    {   
-        DateTime utcNow = DateTime.UtcNow;
-        TimeZoneInfo pstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pakistan Standard Time");
-        DateTime pakistaniTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, pstTimeZone);
-        post.Timestamp = pakistaniTime;
-        _context.Add(post);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-
+    public IActionResult Privacy()
+    {
+        return View();
     }
-
-
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -1,6 +1,12 @@
 using Galbaat.Models;
-using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Galbaat.Data;
+using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 
 namespace Galbaat.Controllers;
@@ -8,15 +14,26 @@ namespace Galbaat.Controllers;
 [Authorize]
 public class HomeController : Controller
 {
-    public IActionResult Index()
+    private readonly AppDbContext _context;
+
+    public HomeController(AppDbContext context)
     {
-        return View();
+         _context = context;
+    }
+    public async Task<IActionResult> Index()
+    {
+        var appDbContext = _context.Post.Include(p => p.AppUser).OrderByDescending(p => p.Id);
+        ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id");
+        return View(await appDbContext.ToListAsync());
     }
 
-    public IActionResult Privacy()
+    public async Task<IActionResult> Following()
     {
-        return View();
+        var appDbContext = _context.Post.Include(p => p.AppUser).OrderByDescending(p => p.Id);
+        ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id");
+        return View(await appDbContext.ToListAsync());
     }
+    
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

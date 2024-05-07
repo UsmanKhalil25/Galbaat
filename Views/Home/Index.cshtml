@@ -1,8 +1,49 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Post>
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = "All Posts";
 }
+ <div class="container">
+        
+        <h2 class="my-2">All posts</h2>
+        <hr>
+        @if (SignInManager.IsSignedIn(User)) {
+        <div class="container w-100">
+            <h4>New Post</h4>
+            <form asp-action="Create" asp-controller="Posts">
+                <div class="form-group">
+                    <textarea name="Content"  class="w-100 form-control my-2 shadow-sm" placeholder="Let them know you're alive" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <input hidden name="AppUserId" class ="form-control" value="@UserManager.GetUserId(User)"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Post" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+        }
+        @foreach (var post in Model) {
+        <div class="container border rounded my-3">
+            <div class="card w-75 my-2 mx-auto">
+                <div class="card-body"> 
+                    <div id="currentpost">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="card-title"><a href="{% url 'profile' post.user %}" class="link-primary link-underline-opacity-0">@post.AppUser.UserName</a></h6>
+@if(post.AppUser.Id == UserManager.GetUserId(User)){
+                            <button class="btn btn-outline-primary btn-sm" id="edit-button">Edit</button>
+}
+                        </div>
+                        <p class="card-text mt-3 mb-1">@post.Content</p>                       
+                    </div>
+                    <p style="font-size: 0.8rem;" class="small-text mt-2">@post.TimeStamp</p>
+                </div>
+            </div>   
+        </div>
+        }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+        
+        
+    </div>

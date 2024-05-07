@@ -19,10 +19,12 @@ namespace Galbaat.Controllers
             _context = context;
         }
 
-        // GET: Posts
-        public async Task<IActionResult> Index()
+
+
+         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Post.Include(p => p.AppUser);
+            var appDbContext = _context.Post.Include(p => p.AppUser).OrderByDescending(p => p.Id);
+            ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id");
             return View(await appDbContext.ToListAsync());
         }
 
@@ -57,17 +59,22 @@ namespace Galbaat.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content,TimeStamp,AppUserId")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,Content,AppUserId")] Post post)
         {
             if (ModelState.IsValid)
             {
+                // Set the TimeStamp property to the current date and time
+                post.TimeStamp = DateTime.Now;
+
                 _context.Add(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id", post.AppUserId);
             return View(post);
         }
+
+
 
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)

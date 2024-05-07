@@ -1,0 +1,44 @@
+@model Galbaat.ViewModels.UserDetailsViewModel 
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+
+<div class="container">
+    <div class="my-4">
+    <div class="w-25 mx-auto d-flex align-items-center flex-column">
+        <h4 class="card-title">@Model.AppUser.Name</h4>
+        <div class="w-100 d-flex justify-content-between">
+            <p class="card-text">Following: 0 </p>
+            <p class="card-text">Followers: 0 </p>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<div class="container border rounded my-3">
+   @if(Model.Posts == null) {
+   <h5 class="text-center my-auto py-3">Nothing here</h5>
+   }
+   else{
+     @foreach (var post in Model.Posts) {
+        <div class="card w-75 my-2 mx-auto">
+                <div class="card-body"> 
+                    <div id="currentpost">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="card-title"><a href="{% url 'profile' post.user %}" class="link-primary link-underline-opacity-0">@post.AppUser.UserName</a></h6>
+                            <button class="btn btn-outline-primary btn-sm" id="edit-button">Edit</button>
+                        </div>
+                        <p class="card-text mt-3 mb-1">@post.Content</p>                       
+                    </div>
+                    <p style="font-size: 0.8rem;" class="small-text mt-2">@post.TimeStamp</p>
+                </div>
+        </div> 
+              
+        }
+
+   }
+   
+</div>

@@ -1,34 +1,50 @@
 @model IEnumerable<Post>
+@using Galbaat.Data
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
+@inject AppDbContext AppDbContext; 
 @{
-    ViewData["Title"] = "Following Posts";
+    ViewData["Title"] = "All Posts";
 }
- <div class="container">
+@functions{
+    public bool IsLikedByCurrentUser(string userId, int postId, AppDbContext context)
+    {
+        return context.Like.Any(like =>  like.AppUserId == userId && like.PostId == postId);
+    }
+
+    public int LikeCount(int postId, AppDbContext context) {
+        return context.Like.Count(like=>like.PostId==postId);
+    }
+}
+ <div class="background-container">
         
         <h2 class="my-2">Following Posts</h2>
         <hr>
-        
+
         @foreach (var post in Model) {
         <div class="container border rounded my-3">
-            <div class="card w-75 my-2 mx-auto">
+             <div class="card w-75 my-2 mx-auto">
                 <div class="card-body"> 
                     <div id="currentpost">
                         <div class="d-flex justify-content-between">
-                            <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>  
+                            <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
 @if(post.AppUser.Id == UserManager.GetUserId(User)){
-                            <button class="btn btn-outline-primary btn-sm" id="edit-button">Edit</button>
+                            <a href="#" class="edit-post" data-post-id="@post.Id">Edit</a>
 }
                         </div>
-                        <p class="card-text mt-3 mb-1">@post.Content</p>                       
+                        <p class="card-text mt-3 mb-1">@post.Content</p>  
+                        <i id="likeButton" data-id="@post.Id" style="cursor: pointer;" class="text-primary fa-heart @(IsLikedByCurrentUser(UserManager.GetUserId(User), post.Id, AppDbContext) ? "fa-solid" : "fa-regular")"></i>
+
+                        <span id="likeCount_@post.Id" style="font-size: 1rem;" class="ms-1">@LikeCount(post.Id, AppDbContext)</span>
                     </div>
                     <p style="font-size: 0.8rem;" class="small-text mt-2">@post.TimeStamp</p>
                 </div>
             </div>   
-        </div>
+        </div>  
         }
+</div>
 
-        
-        
-    </div>
+
+
+

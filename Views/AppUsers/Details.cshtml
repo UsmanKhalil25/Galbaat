@@ -3,12 +3,27 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 
+@using Galbaat.Data
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@inject AppDbContext AppDbContext; 
+
 @{
     ViewData["Title"] = "User Details";
     string currentUserId = (string)ViewData["CurrentUserId"];
     bool isFollowing = (bool)ViewData["isFollowing"];
     int following = (int)ViewData["following"];
     int followers = (int)ViewData["followers"];
+}
+@functions{
+    public bool IsLikedByCurrentUser(string userId, int postId, AppDbContext context)
+    {
+        return context.Like.Any(like =>  like.AppUserId == userId && like.PostId == postId);
+    }
+
+    public int LikeCount(int postId, AppDbContext context) {
+        return context.Like.Count(like=>like.PostId==postId);
+    }
 }
 
 
@@ -40,29 +55,51 @@
 </div>
 
 
-<div class="container border rounded my-3">
-   @if(Model.Posts == null) {
-   <h5 class="text-center my-auto py-3">Nothing here</h5>
-   }
-   else{
-     @foreach (var post in Model.Posts) {
-        <div class="card w-75 my-2 mx-auto">
+ <div class="background-container">
+        
+        @foreach (var post in Model.Posts) {
+        <div class="container border rounded my-3">
+             <div class="card w-75 my-2 mx-auto">
                 <div class="card-body"> 
                     <div id="currentpost">
                         <div class="d-flex justify-content-between">
                             <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
-                            
-                            <button class="btn btn-outline-primary btn-sm" id="edit-button">Edit</button>
+@if(post.AppUser.Id == UserManager.GetUserId(User)){
+                            <a href="#" class="edit-post" data-post-id="@post.Id">Edit</a>
+}
                         </div>
-                        <p class="card-text mt-3 mb-1">@post.Content</p>                       
+                        <p class="card-text mt-3 mb-1">@post.Content</p>  
+                        <i id="likeButton" data-id="@post.Id" style="cursor: pointer;" class="text-primary fa-heart @(IsLikedByCurrentUser(UserManager.GetUserId(User), post.Id, AppDbContext) ? "fa-solid" : "fa-regular")"></i>
+
+                        <span id="likeCount_@post.Id" style="font-size: 1rem;" class="ms-1">@LikeCount(post.Id, AppDbContext)</span>
                     </div>
                     <p style="font-size: 0.8rem;" class="small-text mt-2">@post.TimeStamp</p>
                 </div>
-        </div> 
-              
+            </div>   
+        </div>  
         }
-
-   }
-   
 </div>
 
+<!-- Modal for editing post -->
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editPostForm">
+                <div class="modal-body">
+                    <textarea id="postContent" class="w-100 form-control my-2 shadow-sm" rows="5"></textarea>
+                    <input type="hidden" id="postId" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="savePostBtn">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

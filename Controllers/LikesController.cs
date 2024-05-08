@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Galbaat.Data;
 using Galbaat.Models;
+using System.Security.Claims;
 
 namespace Galbaat.Controllers
 {
@@ -50,7 +51,7 @@ namespace Galbaat.Controllers
         public IActionResult Create()
         {
             ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id");
-            ViewData["PostId"] = new SelectList(_context.Post, "Id", "AppUserId");
+            ViewData["PostId"] = new SelectList(_context.Post, "Id", "Id");
             return View();
         }
 
@@ -58,18 +59,32 @@ namespace Galbaat.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AppUserId,PostId")] Like like)
+        public async Task<IActionResult> LikePost(int postId)
         {
-            if (ModelState.IsValid)
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var existingLike = await _context.Like
+                                            .FirstOrDefaultAsync(like => like.AppUserId == currentUserId && like.PostId == postId);
+            
+            if (existingLike != null)
             {
-                _context.Add(like);
+                _context.Remove(existingLike);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Json(new { liked = false }); 
             }
-            ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id", like.AppUserId);
-            ViewData["PostId"] = new SelectList(_context.Post, "Id", "AppUserId", like.PostId);
-            return View(like);
+
+            if (currentUserId != null) 
+            {
+                var newLike = new Like
+                {
+                    AppUserId = currentUserId,
+                    PostId = postId
+                };
+                _context.Like.Add(newLike);
+                await _context.SaveChangesAsync();
+                return Json(new { liked = true }); 
+            }
+            return Json(new { liked = false }); 
         }
 
         // GET: Likes/Edit/5

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Galbaat.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240506200913_AddPostModel")]
-    partial class AddPostModel
+    [Migration("20240508090157_AddUserFollowModel")]
+    partial class AddUserFollowModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,6 +111,29 @@ namespace Galbaat.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("Galbaat.Models.UserFollow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FollowedId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FollowerId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowedId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("UserFollow");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -252,6 +275,25 @@ namespace Galbaat.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("Galbaat.Models.UserFollow", b =>
+                {
+                    b.HasOne("Galbaat.Models.AppUser", "Followed")
+                        .WithMany("Followeds")
+                        .HasForeignKey("FollowedId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Galbaat.Models.AppUser", "Follower")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Followed");
+
+                    b.Navigation("Follower");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -305,6 +347,10 @@ namespace Galbaat.Migrations
 
             modelBuilder.Entity("Galbaat.Models.AppUser", b =>
                 {
+                    b.Navigation("Followeds");
+
+                    b.Navigation("Followers");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

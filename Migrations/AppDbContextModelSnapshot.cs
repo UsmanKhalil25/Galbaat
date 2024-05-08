@@ -110,6 +110,29 @@ namespace Galbaat.Migrations
                     b.ToTable("Post");
                 });
 
+            modelBuilder.Entity("Galbaat.Models.UserFollow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FollowedId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FollowerId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowedId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("UserFollow");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -249,6 +272,25 @@ namespace Galbaat.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("Galbaat.Models.UserFollow", b =>
+                {
+                    b.HasOne("Galbaat.Models.AppUser", "Followed")
+                        .WithMany("Followeds")
+                        .HasForeignKey("FollowedId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Galbaat.Models.AppUser", "Follower")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Followed");
+
+                    b.Navigation("Follower");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -302,6 +344,10 @@ namespace Galbaat.Migrations
 
             modelBuilder.Entity("Galbaat.Models.AppUser", b =>
                 {
+                    b.Navigation("Followeds");
+
+                    b.Navigation("Followers");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

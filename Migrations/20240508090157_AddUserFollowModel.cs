@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Galbaat.Migrations
 {
     /// <inheritdoc />
-    public partial class AddPostModel : Migration
+    public partial class AddUserFollowModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -178,6 +178,32 @@ namespace Galbaat.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserFollow",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FollowerId = table.Column<string>(type: "TEXT", nullable: false),
+                    FollowedId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFollow", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserFollow_AspNetUsers_FollowedId",
+                        column: x => x.FollowedId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserFollow_AspNetUsers_FollowerId",
+                        column: x => x.FollowerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -219,6 +245,16 @@ namespace Galbaat.Migrations
                 name: "IX_Post_AppUserId",
                 table: "Post",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFollow_FollowedId",
+                table: "UserFollow",
+                column: "FollowedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFollow_FollowerId",
+                table: "UserFollow",
+                column: "FollowerId");
         }
 
         /// <inheritdoc />
@@ -241,6 +277,9 @@ namespace Galbaat.Migrations
 
             migrationBuilder.DropTable(
                 name: "Post");
+
+            migrationBuilder.DropTable(
+                name: "UserFollow");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

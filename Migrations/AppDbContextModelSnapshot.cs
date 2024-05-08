@@ -86,6 +86,28 @@ namespace Galbaat.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Galbaat.Models.Like", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Like");
+                });
+
             modelBuilder.Entity("Galbaat.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -261,6 +283,25 @@ namespace Galbaat.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Galbaat.Models.Like", b =>
+                {
+                    b.HasOne("Galbaat.Models.AppUser", "AppUser")
+                        .WithMany("Likes")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Galbaat.Models.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("Galbaat.Models.Post", b =>
                 {
                     b.HasOne("Galbaat.Models.AppUser", "AppUser")
@@ -348,7 +389,14 @@ namespace Galbaat.Migrations
 
                     b.Navigation("Followers");
 
+                    b.Navigation("Likes");
+
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("Galbaat.Models.Post", b =>
+                {
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

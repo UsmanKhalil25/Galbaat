@@ -11,6 +11,10 @@ public class AppUser : IdentityUser
     public string? Name { get; set; }
 
     public ICollection<Post>? Posts { get; set; }
-    public ICollection<UserFollow>? Followers { get; set; } // Collection of users who follow this user
-    public ICollection<UserFollow>? Followeds { get; set; } // Collection of users whom this user follows
+    public ICollection<UserFollow>? Followers { get; set; } 
+    public ICollection<UserFollow>? Followeds { get; set; } 
+    
+    public ICollection<Like>? Likes {get;set;}
+
+
 }

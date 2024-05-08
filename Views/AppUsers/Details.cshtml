@@ -7,6 +7,8 @@
     ViewData["Title"] = "User Details";
     string currentUserId = (string)ViewData["CurrentUserId"];
     bool isFollowing = (bool)ViewData["isFollowing"];
+    int following = (int)ViewData["following"];
+    int followers = (int)ViewData["followers"];
 }
 
 
@@ -15,8 +17,8 @@
     <div class="w-25 mx-auto d-flex align-items-center flex-column">
         <h4 class="card-title">@Model.AppUser.Name</h4>
         <div class="w-100 d-flex justify-content-between">
-            <p class="card-text">Following: 0 </p>
-            <p class="card-text">Followers: 0 </p>
+            <p class="card-text">Following: @following </p>
+            <p class="card-text">Followers: @followers</p>
         </div>
         @if (UserManager.GetUserId(User) != currentUserId)
         {

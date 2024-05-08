@@ -46,14 +46,22 @@ namespace Galbaat.Controllers
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isFollowing = await _context.UserFollow
                                     .AnyAsync(uf => uf.FollowerId == currentUserId && uf.FollowedId == id);
-
+            var followers = _context.UserFollow
+                                    .Count(uf => uf.FollowedId == id);
+            var following = _context.UserFollow
+                                    .Count(uf=>uf.FollowerId == id);
+                                    
             var viewModel = new UserDetailsViewModel
             {
                 AppUser = appUser,
                 Posts = userPosts
             };
+
+            
             ViewData["CurrentUserId"] = id;
             ViewData["isFollowing"] = isFollowing;
+            ViewData["following"] = following;
+            ViewData["followers"] = followers;
             return View(viewModel);
         }
 

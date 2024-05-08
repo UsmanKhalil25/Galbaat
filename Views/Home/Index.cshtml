@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "All Posts";
 }
- <div class="container">
+ <div class="background-container">
         
         <h2 class="my-2">All posts</h2>
         <hr>
@@ -31,9 +31,9 @@
                 <div class="card-body"> 
                     <div id="currentpost">
                         <div class="d-flex justify-content-between">
-                            <h6 class="card-title"><a href="{% url 'profile' post.user %}" class="link-primary link-underline-opacity-0">@post.AppUser.UserName</a></h6>
+                            <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
 @if(post.AppUser.Id == UserManager.GetUserId(User)){
-                            <button class="btn btn-outline-primary btn-sm" id="edit-button">Edit</button>
+                            <a href="#" class="edit-post" data-post-id="@post.Id">Edit</a>
 }
                         </div>
                         <p class="card-text mt-3 mb-1">@post.Content</p>                       
@@ -41,9 +41,32 @@
                     <p style="font-size: 0.8rem;" class="small-text mt-2">@post.TimeStamp</p>
                 </div>
             </div>   
-        </div>
+        </div>  
         }
+</div>
 
-        
-        
+<!-- Modal for editing post -->
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editPostForm">
+                <div class="modal-body">
+                    <textarea id="postContent" class="w-100 form-control my-2 shadow-sm" rows="5"></textarea>
+                    <input type="hidden" id="postId" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="savePostBtn">Save changes</button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+
+

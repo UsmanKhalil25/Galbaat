@@ -97,36 +97,21 @@ namespace Galbaat.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Content,TimeStamp,AppUserId")] Post post)
+        public async Task<IActionResult> Edit(int id, string content)
         {
-            if (id != post.Id)
+            var post = await _context.Post.FindAsync(id);
+
+            if (post == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(post);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PostExists(post.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id", post.AppUserId);
-            return View(post);
+            post.Content = content;
+
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+
+            return Ok(); // You can customize the response as needed
         }
 
         // GET: Posts/Delete/5

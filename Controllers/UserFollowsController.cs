@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Galbaat.Data;
 using Galbaat.Models;
+using System.Security.Claims;
 
 namespace Galbaat.Controllers
 {
@@ -68,18 +69,7 @@ namespace Galbaat.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Log model state errors
-            foreach (var modelStateKey in ModelState.Keys)
-            {
-                var modelStateVal = ModelState[modelStateKey];
-                if (modelStateVal.Errors.Any())
-                {
-                    foreach (var error in modelStateVal.Errors)
-                    {
-                        Console.WriteLine($"Error in {modelStateKey}: {error.ErrorMessage}");
-                    }
-                }
-            }
+
 
             ViewData["FollowedId"] = new SelectList(_context.AppUser, "Id", "Id", userFollow.FollowedId);
             ViewData["FollowerId"] = new SelectList(_context.AppUser, "Id", "Id", userFollow.FollowerId);
@@ -141,7 +131,72 @@ namespace Galbaat.Controllers
             return View(userFollow);
         }
 
-        // GET: UserFollows/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Unfollow(string followingId)
+        {
+            if (followingId == null)
+            {
+                return NotFound();
+            }
+
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            // Find the follow relationship to remove
+            var followRelationship = await _context.UserFollow
+                                                .FirstOrDefaultAsync(uf => uf.FollowerId == currentUserId && uf.FollowedId == followingId);
+            
+            if (followRelationship == null)
+            {
+                return NotFound(); // Relationship doesn't exist, return appropriate response
+            }
+
+            // Remove the follow relationship
+            _context.UserFollow.Remove(followRelationship);
+            await _context.SaveChangesAsync();
+
+            // Redirect to a page or action method after successful unfollow
+            return RedirectToAction("Details", "AppUsers", new { id = followingId });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> Follow(string followingId)
+        {
+            if (followingId == null)
+            {
+                return NotFound();
+            }
+
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var existingFollowRelationship = await _context.UserFollow
+                                                            .FirstOrDefaultAsync(uf => uf.FollowerId == currentUserId && uf.FollowedId == followingId);
+            
+            if (existingFollowRelationship != null)
+            {
+
+                return RedirectToAction("Index", "Home"); 
+            }
+
+            // If the follow relationship does not exist, create a new one
+            if(currentUserId!=null) 
+            {
+                var newFollowRelationship = new UserFollow
+                {
+                    FollowerId = currentUserId,
+                    FollowedId = followingId
+                };
+                _context.UserFollow.Add(newFollowRelationship);
+                await _context.SaveChangesAsync();
+            }
+
+
+            return RedirectToAction("Details", "AppUsers", new { id = followingId });
+        }
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

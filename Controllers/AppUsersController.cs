@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Galbaat.Data;
 using Galbaat.Models;
 using Galbaat.ViewModels;
+using System.Security.Claims;
 
 namespace Galbaat.Controllers
 {
@@ -39,21 +40,20 @@ namespace Galbaat.Controllers
             {
                 return NotFound();
             }
-
-            // Retrieve posts associated with the user ID
             var userPosts = await _context.Post
-                                        .Where(p => p.AppUserId == id) // Assuming UserId is the foreign key for user ID in the Post model
+                                        .Where(p => p.AppUserId == id) 
                                         .ToListAsync();
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isFollowing = await _context.UserFollow
+                                    .AnyAsync(uf => uf.FollowerId == currentUserId && uf.FollowedId == id);
 
-            // You may want to include additional logic or filters here depending on your application requirements
-
-            // Pass both user details and posts to the view
             var viewModel = new UserDetailsViewModel
             {
                 AppUser = appUser,
                 Posts = userPosts
             };
-
+            ViewData["CurrentUserId"] = id;
+            ViewData["isFollowing"] = isFollowing;
             return View(viewModel);
         }
 

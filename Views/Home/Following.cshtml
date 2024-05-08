@@ -16,7 +16,7 @@
                 <div class="card-body"> 
                     <div id="currentpost">
                         <div class="d-flex justify-content-between">
-                            <h6 class="card-title"><a href="{% url 'profile' post.user %}" class="link-primary link-underline-opacity-0">@post.AppUser.Name</a></h6>
+                            <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>  
 @if(post.AppUser.Id == UserManager.GetUserId(User)){
                             <button class="btn btn-outline-primary btn-sm" id="edit-button">Edit</button>
 }

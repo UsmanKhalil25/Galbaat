@@ -37,8 +37,9 @@ public class HomeController : Controller
         // Get the current HttpContext
         var httpContext = _httpContextAccessor.HttpContext;
 
+
         // Check if user is authenticated
-        if (httpContext.User.Identity.IsAuthenticated)
+        if (httpContext!=null &&  httpContext.User.Identity.IsAuthenticated)
         {
             // Get the user's ID
             return httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

@@ -1,7 +1,12 @@
 @model Galbaat.ViewModels.UserDetailsViewModel 
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 
 @{
     ViewData["Title"] = "User Details";
+    string currentUserId = (string)ViewData["CurrentUserId"];
+    bool isFollowing = (bool)ViewData["isFollowing"];
 }
 
 
@@ -13,6 +18,21 @@
             <p class="card-text">Following: 0 </p>
             <p class="card-text">Followers: 0 </p>
         </div>
+        @if (UserManager.GetUserId(User) != currentUserId)
+        {
+            @if (isFollowing)
+            {
+                <form asp-action="Unfollow" asp-controller="UserFollows" asp-route-followingId="@currentUserId" method="post">
+                    <button type="submit" class="btn btn-outline-danger">Unfollow</button>
+                </form>
+            }
+            else
+            {
+                <form asp-action="Follow" asp-controller="UserFollows" asp-route-followingId="@currentUserId" method="post">
+                    <button type="submit" class="btn btn-outline-primary">Follow</button>
+                </form>
+            }
+        }
     </div>
     </div>
 </div>
@@ -28,7 +48,8 @@
                 <div class="card-body"> 
                     <div id="currentpost">
                         <div class="d-flex justify-content-between">
-                            <h6 class="card-title"><a href="{% url 'profile' post.user %}" class="link-primary link-underline-opacity-0">@post.AppUser.UserName</a></h6>
+                            <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
+                            
                             <button class="btn btn-outline-primary btn-sm" id="edit-button">Edit</button>
                         </div>
                         <p class="card-text mt-3 mb-1">@post.Content</p>                       
@@ -42,3 +63,4 @@
    }
    
 </div>
+

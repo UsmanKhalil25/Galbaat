@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    document.getElementById("savePostBtn").addEventListener("click", function () {
+    document.getElementById("savePostBtn")?.addEventListener("click", function () {
         var postId = document.getElementById("postId").value;
         var editedContent = document.getElementById("postContent").value;
     
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     
-    document.querySelectorAll("[data-dismiss='modal']").forEach(function (button) {
+    document.querySelectorAll("[data-dismiss='modal']")?.forEach(function (button) {
         button.addEventListener("click", function () {
             document.getElementById("editPostModal").classList.remove("show");
             document.getElementById("editPostModal").style.display = "none";

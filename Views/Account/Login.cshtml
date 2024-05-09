@@ -5,37 +5,91 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="row d-flex align-items-center justify-content-center">
-    <div class="col-md-3 card p-3">
-        <h2 class="text-center text-info">Login</h2>
-        <form asp-action="Login" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
+<section class="d-flex flex-row align-items-center mx-auto">
+  <style>
+    
+
+    #radius-shape-1 {
+      height: 220px;
+      width: 220px;
+      top: -60px;
+      left: -130px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    #radius-shape-2 {
+      border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+      bottom: -60px;
+      right: -110px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    .bg-glass {
+      background-color: hsla(0, 0%, 100%, 0.9) !important;
+      backdrop-filter: saturate(200%) blur(25px);
+    }
+  </style>
+
+  <div class="container  px-4 py-5 px-md-5 text-center text-lg-start my-5 ">
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+            Galbaat<br />
+          <span style="color: hsl(218, 81%, 75%)">the new twitter</span>
+        </h1>
+        <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+            Join Galbaat, where every voice matters. Express yourself freely, connect with like-minded individuals, and spark meaningful conversations that shape our world. Whether you're sharing your thoughts, exploring diverse perspectives, or discovering new ideas, Galbaat is your platform to engage, inspire, and make a difference. Let's build a community where everyone's story is heard, valued, and celebrated.
+        </p>
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+        <div class="card bg-glass">
+          <div class="card-body px-4 py-5 px-md-5">
+            <form asp-action="Login" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="mb-1">
-                <label asp-for="Username" class="control-label">Email</label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="mb-1">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="mb-1 form-check">
-                <label class="form-check-label">
-                    <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a=>a.RememberMe)
-                </label>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                    <a asp-action="Register" class="text-decoration-none float-start mt-2" asp-route-returnurl="@ViewData["ReturnUrl"]">Don't have account?</a>
+            
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label asp-for="Username" class="form-label"></label>                    
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
-                <div class="col-4">
-                    <input type="submit" value="Login" class="btn btn-primary btn-sm float-end" />
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-            </div>
-        </form>
+                <div class="mb-1 form-check">
+                    
+                </div>
+                <div class="form-check d-flex justify-content-center mb-4">
+                    <label class="form-check-label">
+                        <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a=>a.RememberMe)
+                    </label>
+                </div>
+              <!-- Submit button -->
+              <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                Login
+              </button>
+
+              <!-- Register buttons -->
+              <div class="text-center">
+                <a asp-action="Register" class="text-decoration-none float-start mt-2" asp-route-returnurl="@ViewData["ReturnUrl"]">Don't have account?</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+</section>
+<!-- Section: Design Block -->
 
 @section Scripts{
     @{

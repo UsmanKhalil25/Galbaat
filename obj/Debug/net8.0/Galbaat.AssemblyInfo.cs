@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Galbaat")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b6e53b289efddd043a1e5760711a0639d551e43")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9e4adf0b34c0a5b62081f66ce7c5988a6e3faf2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Galbaat")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Galbaat")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

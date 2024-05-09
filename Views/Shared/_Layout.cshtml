@@ -10,40 +10,76 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Galbaat.styles.css" asp-append-version="true" />
+
 </head>
 <body>
-    <header>
-         <nav class="px-2 navbar navbar-expand-lg navbar-dark bg-dark border-bottom d-flex flex-row justify-content-between">
-          
-            <div class="d-flex flex-row">
-            <a class="navbar-brand" asp-action="Index" asp-controller="Home">Network</a>
-              <ul class="navbar-nav mr-auto">  
-                @if (SignInManager.IsSignedIn(User)) {
-                <li class="nav-item">
+  <section class="background-radial-gradient overflow-hidden d-flex flex-row align-items-center" style="min-height: calc(100vh);">
+    <style>
+      .background-radial-gradient {
+      background-color: hsl(218, 41%, 15%);
+      background-image: radial-gradient(650px circle at 0% 0%,
+          hsl(218, 41%, 35%) 15%,
+          hsl(218, 41%, 30%) 35%,
+          hsl(218, 41%, 20%) 75%,
+          hsl(218, 41%, 19%) 80%,
+          transparent 100%),
+        radial-gradient(1250px circle at 100% 100%,
+          hsl(218, 41%, 45%) 15%,
+          hsl(218, 41%, 30%) 35%,
+          hsl(218, 41%, 20%) 75%,
+          hsl(218, 41%, 19%) 80%,
+          transparent 100%);
+    }
+    </style>
+    @if(SignInManager.IsSignedIn(User)) {
+        <div class="wrapper">
+          <nav id="sidebar" >
+            <div class="d-flex flex-column justify-content-between">
+              <div>
+                  <div class="sidebar-header">
+                      <h3>Galbaat</h3>
+                  </div>
+                  <ul class="list-unstyled components">
+                      <li>
+                          <a asp-action="Index" asp-controller="Home">All Posts</a>
+                      </li>
+                      <li>
+                          <a asp-action="Following" asp-controller="Home">Following</a>
+                      </li>
+                  </ul>
+                  @if (SignInManager.IsSignedIn(User)) {
                     <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@UserManager.GetUserId(User)" ><strong>@UserManager.GetUserName(User)</strong></a>
-                </li>
+                  }
+              </div>
 
-                }
-                <li class="nav-item">
-                  <a class="nav-link" asp-action="Index" asp-controller="Home">All Posts</a>
-                </li>
-                @if (SignInManager.IsSignedIn(User)) {
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="Following" asp-controller="Home">Following</a>
-                </li>
-                }
-                
-              </ul>
-            </div>
-            <partial name="_LoginPartial"/>
+          </div>
+
           </nav>
 
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+          <!-- Page Content  -->
+          <div id="content">
+              <nav class="navbar navbar-expand-lg navbar-light" style="background-color: hsla(0, 0%, 100%, 0.9) !important; backdrop-filter: saturate(200%) blur(25px);">
+                  <div class="container-fluid">
+                      <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                          <i class="fas fa-align-left"></i>
+                          <span>Toggle Sidebar</span>
+                      </button>                      
+                  </div>
+                  <partial name="_LoginPartial"/>
+              </nav>
             @RenderBody()
+          </div>
+        </div>
+
+    }
+    else{
+      @RenderBody()
+    }
+  </section>
+    @* <div >
+        <main role="main" class="pb-3">
         </main>
-    </div>
+    </div> *@
 
     <script src="https://kit.fontawesome.com/5d4ea46f8e.js" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

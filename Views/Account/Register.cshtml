@@ -6,7 +6,7 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="row d-flex align-items-center justify-content-center">
+@* <div class="row d-flex align-items-center justify-content-center">
     <div class="col-md-4 card p-3">
         <h2 class="text-center text-info">Register</h2>
         <form asp-action="Register" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
@@ -41,7 +41,94 @@
             </div>
         </form>
     </div>
-</div>
+</div> *@
+
+<section class="d-flex flex-row align-items-center mx-auto">
+  <style>
+
+    #radius-shape-1 {
+      height: 220px;
+      width: 220px;
+      top: -60px;
+      left: -130px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    #radius-shape-2 {
+      border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+      bottom: -60px;
+      right: -110px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    .bg-glass {
+      background-color: hsla(0, 0%, 100%, 0.9) !important;
+      backdrop-filter: saturate(200%) blur(25px);
+    }
+  </style>
+
+  <div class="container  px-4 py-5 px-md-5 text-center text-lg-start my-5 ">
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+            Galbaat<br />
+          <span style="color: hsl(218, 81%, 75%)">the new twitter</span>
+        </h1>
+       <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+            Join Galbaat, where every voice matters. Express yourself freely, connect with like-minded individuals, and spark meaningful conversations that shape our world. Whether you're sharing your thoughts, exploring diverse perspectives, or discovering new ideas, Galbaat is your platform to engage, inspire, and make a difference. Let's build a community where everyone's story is heard, valued, and celebrated.
+        </p>
+
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+        <div class="card bg-glass">
+          <div class="card-body px-4 py-5 px-md-5">
+            <form asp-action="Login" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label asp-for="Name" class="form-label"></label>                   
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                 <div data-mdb-input-init class="form-outline mb-4">
+                    <label asp-for="ConfirmPassword" class="form-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+              <!-- Submit button -->
+              <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                Sign In
+              </button>
+
+              <!-- Register buttons -->
+              <div class="text-center">
+                <a asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text-decoration-none float-start mt-2">Have account?</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 @section Scripts{

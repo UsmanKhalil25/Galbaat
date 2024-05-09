@@ -5,7 +5,7 @@
 @inject UserManager<AppUser> UserManager
 @inject AppDbContext AppDbContext; 
 @{
-    ViewData["Title"] = "All Posts";
+    ViewData["Title"] = "Following's Posts";
 }
 @functions{
     public bool IsLikedByCurrentUser(string userId, int postId, AppDbContext context)
@@ -16,36 +16,75 @@
     public int LikeCount(int postId, AppDbContext context) {
         return context.Like.Count(like=>like.PostId==postId);
     }
+    public string FormatTimeDifference(DateTime postTime)
+    {
+        TimeSpan timeDifference = DateTime.Now - postTime;
+
+        int minutes = (int)timeDifference.TotalMinutes;
+
+        if (minutes < 60)
+        {
+            return $"{minutes} minute{(minutes == 1 ? "" : "s")} ago";
+        }
+        else if (minutes < 1440)
+        {
+            int hours = (int)timeDifference.TotalHours;
+            return $"{hours} hour{(hours == 1 ? "" : "s")} ago";
+        }
+        else if (minutes < 43829) // Approximately 1 month
+        {
+            int days = (int)timeDifference.TotalDays;
+            return $"{days} day{(days == 1 ? "" : "s")} ago";
+        }
+        else if (minutes < 525949) // Approximately 12 months (1 year)
+        {
+            int months = (int)(timeDifference.TotalDays / 30);
+            return $"{months} month{(months == 1 ? "" : "s")} ago";
+        }
+        else
+        {
+            int years = (int)(timeDifference.TotalDays / 365);
+            return $"{years} year{(years == 1 ? "" : "s")} ago";
+        }
+    }
+
 }
  <div class="background-container">
         
-        <h2 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+        <h2 class="my-5 display-5 fw-bold ls-tight text-center" style="color:rgb(29, 27, 27);">
             Following's posts
         </h2>
 
+         <div class="container">
+
         @foreach (var post in Model) {
-        <div class="container border rounded my-3">
-             <div class="card w-75 my-2 mx-auto">
+
+             <div class="my-1 mx-auto post-card" >
                 <div class="card-body"> 
                     <div id="currentpost">
                         <div class="d-flex justify-content-between">
-                            <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
-@if(post.AppUser.Id == UserManager.GetUserId(User)){
-                            <a href="#" class="edit-post" data-post-id="@post.Id">Edit</a>
-}
+                            <a  style="color:hsl(222, 100%, 93%);" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
+                            @if(post.AppUser.Id == UserManager.GetUserId(User)){
+                            <a  class="edit-post" data-post-id="@post.Id">Edit</a>
+                            }
                         </div>
-                        <p class="card-text mt-3 mb-1">@post.Content</p>  
-                        <i id="likeButton" data-id="@post.Id" style="cursor: pointer;" class="text-danger fa-heart @(IsLikedByCurrentUser(UserManager.GetUserId(User), post.Id, AppDbContext) ? "fa-solid" : "fa-regular")"></i>
-
-                        <span id="likeCount_@post.Id" style="font-size: 1rem;" class="ms-1">@LikeCount(post.Id, AppDbContext)</span>
+                        <p class="card-text my-1">@post.Content</p>
+                        <div class="d-flex  justify-content-between align-items-center">
+                            <div>
+                                <i id="likeButton" data-id="@post.Id" style="cursor: pointer; color:#ad1fff;" class="fa-heart @(IsLikedByCurrentUser(UserManager.GetUserId(User), post.Id, AppDbContext) ? "fa-solid" : "fa-regular")"></i>
+                                <span id="likeCount_@post.Id" style="font-size: 1rem;" class="ms-1">@LikeCount(post.Id, AppDbContext)</span>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.7rem;" class="small-text">@FormatTimeDifference(@post.TimeStamp)</p>
+                            </div>
+                        </div>
                     </div>
-                    <p style="font-size: 0.8rem;" class="small-text mt-2">@post.TimeStamp</p>
                 </div>
             </div>   
-        </div>  
         }
-</div>
+        </div>
 
+</div>
 
 
 

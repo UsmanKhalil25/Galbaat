@@ -11,64 +11,71 @@ using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using System.Security.Claims;
 
-namespace Galbaat.Controllers;
-
-[Authorize]
-public class HomeController : Controller
+namespace Galbaat.Controllers
 {
-    private readonly AppDbContext _context;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-
-    public HomeController(AppDbContext context, IHttpContextAccessor httpContextAccessor)
+    [Authorize]
+    public class HomeController : Controller
     {
-         _context = context;
-         _httpContextAccessor = httpContextAccessor;
-    }
-    public async Task<IActionResult> Index()
-    {
-        var appDbContext = _context.Post.Include(p => p.AppUser).OrderByDescending(p => p.Id);
-        ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id");
-        return View(await appDbContext.ToListAsync());
-    }
-
-     public string GetCurrentUserId()
-    {
-        // Get the current HttpContext
-        var httpContext = _httpContextAccessor.HttpContext;
+        private readonly AppDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
 
-        // Check if user is authenticated
-        if (httpContext!=null &&  httpContext.User.Identity.IsAuthenticated)
+        public HomeController(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
-            // Get the user's ID
-            return httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            _context = context;
+            _httpContextAccessor = httpContextAccessor;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var appDbContext = _context.Post.Include(p => p.AppUser).OrderByDescending(p => p.Id);
+            return View(await appDbContext.ToListAsync());
         }
 
-        // User is not authenticated or ID is not found
-        return null; // Or throw an exception or handle the case based on your application's requirement
-    }
-    public async Task<IActionResult> Following()
-    {
-        // Get the current user's ID
-        var currentUserId = GetCurrentUserId(); // You need to implement a method to get the current user's ID
-        
-        // Find the users that the current user follows
-        var followedUsers = _context.UserFollow.Where(uf => uf.FollowerId == currentUserId).Select(uf => uf.FollowedId);
+        public string GetCurrentUserId()
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
 
-        // Retrieve posts from followed users
-        var postsFromFollowedUsers = _context.Post
-                                        .Where(p => followedUsers.Contains(p.AppUserId))
-                                        .Include(p => p.AppUser)
-                                        .OrderByDescending(p => p.Id);
 
-        ViewData["AppUserId"] = new SelectList(_context.AppUser, "Id", "Id");
-        return View(await postsFromFollowedUsers.ToListAsync());
-    }
+            if (httpContext!=null &&  httpContext.User.Identity.IsAuthenticated)
+            {
+                return httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return null; 
+        }
+        public async Task<IActionResult> Following()
+        {
+            var currentUserId = GetCurrentUserId(); 
+            
+            var followedUsers = _context.UserFollow.Where(uf => uf.FollowerId == currentUserId).Select(uf => uf.FollowedId);
+
+            var postsFromFollowedUsers = _context.Post
+                                            .Where(p => followedUsers.Contains(p.AppUserId))
+                                            .Include(p => p.AppUser)
+                                            .OrderByDescending(p => p.Id);
+
+            return View(await postsFromFollowedUsers.ToListAsync());
+        }
+
+        public async Task<IActionResult> Liked()
+        {
+            var currentUserId = GetCurrentUserId(); 
+            
+            var likes = _context.Like.Where(l => l.AppUserId == currentUserId).Select(l => l.PostId);
+
+            var postsFromLikes = _context.Post
+                                            .Where(p => likes.Contains(p.Id))
+                                            .Include(p => p.AppUser)
+                                            .OrderByDescending(p => p.Id);
+
+            return View(await postsFromLikes.ToListAsync());
+
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }

@@ -572,3 +572,6 @@
 /home/usman/Code/Galbaat/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Windows.Extensions.dll
 /home/usman/Code/Galbaat/obj/Debug/net8.0/Galbaat.MvcApplicationPartsAssemblyInfo.cs
 /home/usman/Code/Galbaat/obj/Debug/net8.0/scopedcss/Views/Home/Index.cshtml.rz.scp.css
+/home/usman/Code/Galbaat/obj/Debug/net8.0/scopedcss/Views/Home/Following.cshtml.rz.scp.css
+/home/usman/Code/Galbaat/obj/Debug/net8.0/scopedcss/Views/AppUsers/Details.cshtml.rz.scp.css
+/home/usman/Code/Galbaat/obj/Debug/net8.0/scopedcss/Views/Home/Liked.cshtml.rz.scp.css

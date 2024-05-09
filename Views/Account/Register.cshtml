@@ -106,7 +106,7 @@
                 <div data-mdb-input-init class="form-outline mb-4">
                     <label asp-for="Password" class="form-label"></label>
                     <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                  <div data-mdb-input-init class="form-outline mb-4">
                     <label asp-for="ConfirmPassword" class="form-label"></label>
@@ -120,7 +120,7 @@
 
               <!-- Register buttons -->
               <div class="text-center">
-                <a asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text-decoration-none float-start mt-2">Have account?</a>
+                <a asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text-decoration-none float-start mt-2">Already have an account?</a>
               </div>
             </form>
           </div>

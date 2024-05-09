@@ -1,11 +1,11 @@
-﻿	@model IEnumerable<Post>
+@model IEnumerable<Post>
 @using Galbaat.Data
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 @inject AppDbContext AppDbContext; 
 @{
-    ViewData["Title"] = "All Posts";
+    ViewData["Title"] = "Liked Posts";
 }
 @functions{
     public bool IsLikedByCurrentUser(string userId, int postId, AppDbContext context)
@@ -52,20 +52,10 @@
  <div class="background-container">
         
         <h2 class="my-5 display-5 fw-bold ls-tight text-center" style="color:rgb(29, 27, 27);">
-            All posts
+            Liked Posts
         </h2>
 
-        <div class="container w-100 mb-4">
-            <form  asp-action="Create" asp-controller="Posts" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                
-                <textarea name="Content" class="textarea" placeholder="Let them know you're alive" rows="5"  ></textarea>
-                <div class="form-group">
-                    <input name="AppUserId" class ="form-control" hidden value="@UserManager.GetUserId(User)"/>
-                </div>
-                <input class="btn post-btn" type="submit" value="Post">
-            </form>
-        </div>
+
         <div class="container">
 
         @foreach (var post in Model) {
@@ -75,6 +65,7 @@
                     <div id="currentpost">
                         <div class="d-flex justify-content-between">
                             <a  style="color:hsl(222, 100%, 93%);" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
+                            
                             @if(post.AppUser.Id == UserManager.GetUserId(User)){
                             <a  class="edit-post" data-post-id="@post.Id">Edit</a>
                             }

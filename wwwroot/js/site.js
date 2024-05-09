@@ -1,17 +1,12 @@
 ﻿
 document.addEventListener("DOMContentLoaded", function () {
-    var sidebarCollapse = document.getElementById("sidebarCollapse");
-    var sidebar = document.getElementById("sidebar");
 
-    sidebarCollapse.addEventListener("click", function() {
-        sidebar.classList.toggle("active");
-    });
-        
     var editPostButtons = document.querySelectorAll(".edit-post");
     editPostButtons.forEach(function (button) {
         button.addEventListener("click", function () {
             var postId = button.dataset.postId;
             var postContent = button.closest(".container").querySelector("#currentpost .card-text").textContent.trim();
+            console.log("Post content: ", postContent)
             document.getElementById("postContent").value = postContent;
             document.getElementById("postId").value = postId;
             document.getElementById("editPostModal").classList.add("show");

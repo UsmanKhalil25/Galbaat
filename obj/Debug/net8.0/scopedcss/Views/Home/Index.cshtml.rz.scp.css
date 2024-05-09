@@ -1,0 +1,42 @@
+.textarea[b-1fgj2qr6pi] {
+    width: 100%;
+    padding: 16px;
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border: none;
+    resize: none; 
+    border-radius: 10px;
+      
+}
+.textarea[b-1fgj2qr6pi]::placeholder{
+    color:hsl(218, 81%, 85%);
+    
+}
+
+
+.post-btn[b-1fgj2qr6pi]{
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+}
+
+.post-btn:hover[b-1fgj2qr6pi]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+.modal-post-btn[b-1fgj2qr6pi]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+
+.modal-post-btn:hover[b-1fgj2qr6pi]{
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+    
+}
+
+.post-card[b-1fgj2qr6pi]{
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border-radius: 10px;
+
+}

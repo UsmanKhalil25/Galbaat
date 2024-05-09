@@ -34,64 +34,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/usman/Code/Galbaat/Views/AppUsers/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXBwVXNlcnMvQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/AppUsers/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXBwVXNlcnMvRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/AppUsers/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXBwVXNlcnMvRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/AppUsers/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXBwVXNlcnMvRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/AppUsers/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXBwVXNlcnMvSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Home/Following.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Gb2xsb3dpbmcuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Likes/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlrZXMvQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Likes/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlrZXMvRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Likes/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlrZXMvRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Likes/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlrZXMvRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Likes/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTGlrZXMvSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [/home/usman/Code/Galbaat/Views/Posts/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9zdHMvQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Posts/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9zdHMvRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Posts/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9zdHMvRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/Posts/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9zdHMvRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/usman/Code/Galbaat/Views/Posts/Index.cshtml]
@@ -110,26 +54,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/usman/Code/Galbaat/Views/UserFollows/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZvbGxvd3MvQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/UserFollows/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZvbGxvd3MvRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/UserFollows/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZvbGxvd3MvRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/UserFollows/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZvbGxvd3MvRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/usman/Code/Galbaat/Views/UserFollows/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlckZvbGxvd3MvSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [/home/usman/Code/Galbaat/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -138,9 +62,21 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/usman/Code/Galbaat/Views/AppUsers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXBwVXNlcnMvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-1mdpcrjar2
+
+[/home/usman/Code/Galbaat/Views/Home/Following.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Gb2xsb3dpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-yk28zcx561
+
 [/home/usman/Code/Galbaat/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = b-1fgj2qr6pi
+
+[/home/usman/Code/Galbaat/Views/Home/Liked.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9MaWtlZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-0it5gde9vb
 
 [/home/usman/Code/Galbaat/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s

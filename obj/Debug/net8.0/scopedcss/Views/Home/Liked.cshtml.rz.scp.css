@@ -1,0 +1,18 @@
+
+.post-btn[b-0it5gde9vb]{
+    
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+}
+
+.post-btn:hover[b-0it5gde9vb]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+
+.post-card[b-0it5gde9vb]{
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border-radius: 10px;
+
+}

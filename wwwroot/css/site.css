@@ -1,10 +1,19 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
-html {
-  position: relative;
-  min-height: 100%;
+*{
+  margin: 0;
+  padding: 0;
 }
-
 .blur {
   filter: blur(5px);
+}
+a {
+  color: #0060B6;
+  text-decoration: none !important;
+}
+
+a:hover {
+  color:#00A0C6; 
+  text-decoration:none; 
+  cursor:pointer;  
 }

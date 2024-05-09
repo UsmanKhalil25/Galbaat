@@ -14,6 +14,7 @@
     bool isFollowing = (bool)ViewData["isFollowing"];
     int following = (int)ViewData["following"];
     int followers = (int)ViewData["followers"];
+    int posts = (int)ViewData["posts"];
 }
 @functions{
     public bool IsLikedByCurrentUser(string userId, int postId, AppDbContext context)
@@ -24,80 +25,132 @@
     public int LikeCount(int postId, AppDbContext context) {
         return context.Like.Count(like=>like.PostId==postId);
     }
+    public string FormatTimeDifference(DateTime postTime)
+    {
+        TimeSpan timeDifference = DateTime.Now - postTime;
+
+        int minutes = (int)timeDifference.TotalMinutes;
+
+        if (minutes < 60)
+        {
+            return $"{minutes} minute{(minutes == 1 ? "" : "s")} ago";
+        }
+        else if (minutes < 1440)
+        {
+            int hours = (int)timeDifference.TotalHours;
+            return $"{hours} hour{(hours == 1 ? "" : "s")} ago";
+        }
+        else if (minutes < 43829) // Approximately 1 month
+        {
+            int days = (int)timeDifference.TotalDays;
+            return $"{days} day{(days == 1 ? "" : "s")} ago";
+        }
+        else if (minutes < 525949) // Approximately 12 months (1 year)
+        {
+            int months = (int)(timeDifference.TotalDays / 30);
+            return $"{months} month{(months == 1 ? "" : "s")} ago";
+        }
+        else
+        {
+            int years = (int)(timeDifference.TotalDays / 365);
+            return $"{years} year{(years == 1 ? "" : "s")} ago";
+        }
+    }
+
 }
 
-
 <div class="container">
-    <div class="my-4">
-    <div class="w-25 mx-auto d-flex align-items-center flex-column">
-        <h4 class="card-title">@Model.AppUser.Name</h4>
-        <div class="w-100 d-flex justify-content-between">
-            <p class="card-text">Following: @following </p>
-            <p class="card-text">Followers: @followers</p>
+    <div class="w-fuld-flex flex-column align-items-center my-4">
+            <div class=" d-flex flex-row align-items-center justify-content-between">
+                <div>
+                <h4 class="display-5 fw-bold text-dark">@Model.AppUser.Name</h4>
+                <p class="text-muted">@Model.AppUser.Email</p>
+
+                </div>
+                @if (UserManager.GetUserId(User) != currentUserId)
+                {
+                    <div>
+                        @if (isFollowing)
+                        {
+                            <form asp-action="Unfollow" asp-controller="UserFollows" asp-route-followingId="@currentUserId" method="post">
+                                <button type="submit" class="btn  btn-outline-danger">Unfollow</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="Follow" asp-controller="UserFollows" asp-route-followingId="@currentUserId" method="post">
+                                <button type="submit" class="btn  btn-outline-primary">Follow</button>
+                            </form>
+                        }
+                    </div>
+            }
+           
         </div>
-        @if (UserManager.GetUserId(User) != currentUserId)
-        {
-            @if (isFollowing)
-            {
-                <form asp-action="Unfollow" asp-controller="UserFollows" asp-route-followingId="@currentUserId" method="post">
-                    <button type="submit" class="btn btn-outline-danger">Unfollow</button>
-                </form>
-            }
-            else
-            {
-                <form asp-action="Follow" asp-controller="UserFollows" asp-route-followingId="@currentUserId" method="post">
-                    <button type="submit" class="btn btn-outline-primary">Follow</button>
-                </form>
-            }
-        }
-    </div>
+        <div class="mt-2  d-flex  justify-content-around">
+            <div class="d-flex flex-column align-items-center">
+                <p class="h4">@posts</p>
+                <p class="h6">Posts</p>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                <p class="h4">@following</p>
+                <p class="h6">Following</p>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                <p class="h4">@followers</p>
+                <p class="h6">Followers</p>
+            </div>
+        </div>
+
+         
+        
     </div>
 </div>
 
 
  <div class="background-container">
         
+         <div class="container">
+
         @foreach (var post in Model.Posts) {
-        <div class="container border rounded my-3">
-             <div class="card w-75 my-2 mx-auto">
+
+             <div class="my-1 mx-auto post-card" >
                 <div class="card-body"> 
                     <div id="currentpost">
                         <div class="d-flex justify-content-between">
-                            <a class="nav-link" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
-@if(post.AppUser.Id == UserManager.GetUserId(User)){
-                            <a href="#" class="edit-post" data-post-id="@post.Id">Edit</a>
-}
+                            <a  style="color:hsl(222, 100%, 93%);" asp-controller="AppUsers" asp-action="Details" asp-route-id = "@post.AppUser.Id" ><strong>@post.AppUser.UserName</strong></a>
+                            @if(post.AppUser.Id == UserManager.GetUserId(User)){
+                            <a  class="edit-post" data-post-id="@post.Id">Edit</a>
+                            }
                         </div>
-                        <p class="card-text mt-3 mb-1">@post.Content</p>  
-                        <i id="likeButton" data-id="@post.Id" style="cursor: pointer;" class="text-danger fa-heart @(IsLikedByCurrentUser(UserManager.GetUserId(User), post.Id, AppDbContext) ? "fa-solid" : "fa-regular")"></i>
-
-                        <span id="likeCount_@post.Id" style="font-size: 1rem;" class="ms-1">@LikeCount(post.Id, AppDbContext)</span>
+                        <p class="card-text my-1">@post.Content</p>
+                        <div class="d-flex  justify-content-between align-items-center">
+                            <div>
+                                <i id="likeButton" data-id="@post.Id" style="cursor: pointer; color:#ad1fff;" class="fa-heart @(IsLikedByCurrentUser(UserManager.GetUserId(User), post.Id, AppDbContext) ? "fa-solid" : "fa-regular")"></i>
+                                <span id="likeCount_@post.Id" style="font-size: 1rem;" class="ms-1">@LikeCount(post.Id, AppDbContext)</span>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.7rem;" class="small-text">@FormatTimeDifference(@post.TimeStamp)</p>
+                            </div>
+                        </div>
                     </div>
-                    <p style="font-size: 0.8rem;" class="small-text mt-2">@post.TimeStamp</p>
                 </div>
             </div>   
-        </div>  
         }
+        </div>
 </div>
 
 <!-- Modal for editing post -->
 <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editPostModalLabel">Edit Post</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
             <form id="editPostForm">
-                <div class="modal-body">
-                    <textarea id="postContent" class="w-100 form-control my-2 shadow-sm" rows="5"></textarea>
+                <div class="modal-body" style="background-color:  hsl(218, 41%, 15%);">
+                    <textarea id="postContent" class="textarea" rows="5"></textarea>
                     <input type="hidden" id="postId" />
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="savePostBtn">Save changes</button>
+                <div class="modal-footer" style="background-color: hsl(218, 81%, 85%);">
+                    <button type="button" class="btn modal-post-btn" id="savePostBtn">Save changes</button>
+                    <button type="button" class="btn modal-post-btn " data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>

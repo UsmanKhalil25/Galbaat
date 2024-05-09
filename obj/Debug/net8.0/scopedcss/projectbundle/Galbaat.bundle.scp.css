@@ -1,4 +1,127 @@
+/* _content/Galbaat/Views/AppUsers/Details.cshtml.rz.scp.css */
+.textarea[b-1mdpcrjar2] {
+    width: 100%;
+    padding: 16px;
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border: none;
+    resize: none; 
+    border-radius: 10px;
+      
+}
+.textarea[b-1mdpcrjar2]::placeholder{
+    color:hsl(218, 81%, 85%);
+    
+}
+
+
+.post-btn[b-1mdpcrjar2]{
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+}
+
+.post-btn:hover[b-1mdpcrjar2]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+.modal-post-btn[b-1mdpcrjar2]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+
+.modal-post-btn:hover[b-1mdpcrjar2]{
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+    
+}
+
+.post-card[b-1mdpcrjar2]{
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border-radius: 10px;
+
+}
+/* _content/Galbaat/Views/Home/Following.cshtml.rz.scp.css */
+
+.post-btn[b-yk28zcx561]{
+    
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+}
+
+.post-btn:hover[b-yk28zcx561]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+
+.post-card[b-yk28zcx561]{
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border-radius: 10px;
+
+}
 /* _content/Galbaat/Views/Home/Index.cshtml.rz.scp.css */
+.textarea[b-1fgj2qr6pi] {
+    width: 100%;
+    padding: 16px;
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border: none;
+    resize: none; 
+    border-radius: 10px;
+      
+}
+.textarea[b-1fgj2qr6pi]::placeholder{
+    color:hsl(218, 81%, 85%);
+    
+}
+
+
+.post-btn[b-1fgj2qr6pi]{
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+}
+
+.post-btn:hover[b-1fgj2qr6pi]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+.modal-post-btn[b-1fgj2qr6pi]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+
+.modal-post-btn:hover[b-1fgj2qr6pi]{
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+    
+}
+
+.post-card[b-1fgj2qr6pi]{
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border-radius: 10px;
+
+}
+/* _content/Galbaat/Views/Home/Liked.cshtml.rz.scp.css */
+
+.post-btn[b-0it5gde9vb]{
+    
+    color: hsl(218, 81%, 85%);
+    background-color: hsl(218, 41%, 15%);
+}
+
+.post-btn:hover[b-0it5gde9vb]{
+    background-color: hsl(218, 81%, 85%);
+    color: hsl(218, 41%, 15%);
+}
+
+.post-card[b-0it5gde9vb]{
+    background-color: hsl(218, 41%, 15%);
+    color:hsl(218, 81%, 85%);
+    border-radius: 10px;
+
+}
 /* _content/Galbaat/Views/Shared/_Layout.cshtml.rz.scp.css */
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
@@ -7,9 +130,9 @@ body[b-rxjolmycj6] {
 }
 
 
-a[b-rxjolmycj6],
-a:hover[b-rxjolmycj6],
-a:focus[b-rxjolmycj6] {
+.sidebar-link[b-rxjolmycj6],
+.sidebar-link:hover[b-rxjolmycj6],
+.sidebar-link:focus[b-rxjolmycj6] {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
@@ -42,17 +165,21 @@ a:focus[b-rxjolmycj6] {
 
 .wrapper[b-rxjolmycj6] {
     display: flex;
-    width: 100%;
-    align-items: stretch;
+    height: 100%;
 }
 
 #sidebar[b-rxjolmycj6] {
     min-width: 250px;
     max-width: 250px;
-    background-color: hsla(0, 0%, 100%, 0.9) !important;
-    backdrop-filter: saturate(200%) blur(25px);
+    background-color: hsl(218, 41%, 15%);
+    height: 100vh;
     transition: all 0.3s;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
+
+
 
 #sidebar.active[b-rxjolmycj6] {
     margin-left: -250px;
@@ -60,11 +187,11 @@ a:focus[b-rxjolmycj6] {
 
 #sidebar .sidebar-header[b-rxjolmycj6] {
     padding: 20px;
+    color: hsl(218, 81%, 95%)
 }
 
 #sidebar ul.components[b-rxjolmycj6] {
     padding: 20px 0;
-    border-bottom: 1px solid #0d6efd;
 }
 
 #sidebar ul p[b-rxjolmycj6] {
@@ -72,18 +199,18 @@ a:focus[b-rxjolmycj6] {
     padding: 10px;
 }
 
-#sidebar ul li a[b-rxjolmycj6] {
+#sidebar ul li .sidebar-link[b-rxjolmycj6] {
     padding: 10px;
     font-size: 1.1em;
     display: block;
 }
 
-#sidebar ul li a:hover[b-rxjolmycj6] {
+#sidebar ul li .sidebar-link:hover[b-rxjolmycj6] {
     color: #0d6efd;
     background: #fff;
 }
 
-#sidebar ul li.active>a[b-rxjolmycj6],
+#sidebar ul li.active>.sidebar-link[b-rxjolmycj6],
 a[aria-expanded="true"][b-rxjolmycj6] {
     color: #fff;
     background: #0d6efd;
@@ -101,7 +228,7 @@ a[data-toggle="collapse"][b-rxjolmycj6] {
     transform: translateY(-50%);
 }
 
-ul ul a[b-rxjolmycj6] {
+ul ul .sidebar-link[b-rxjolmycj6] {
     font-size: 0.9em !important;
     padding-left: 30px !important;
     background: #0d6efd;
@@ -119,13 +246,13 @@ ul.CTAs a[b-rxjolmycj6] {
     margin-bottom: 5px;
 }
 
-a.download[b-rxjolmycj6] {
+.sidebar-link.download[b-rxjolmycj6] {
     background: #fff;
     color: #0d6efd;
 }
 
-a.article[b-rxjolmycj6],
-a.article:hover[b-rxjolmycj6] {
+.sidebar-link.article[b-rxjolmycj6],
+.sidebar-link.article:hover[b-rxjolmycj6] {
     background: #6d7fcc !important;
     color: #fff !important;
 }
@@ -134,11 +261,15 @@ a.article:hover[b-rxjolmycj6] {
     CONTENT STYLE
 ----------------------------------------------------- */
 
+.icon-size[b-rxjolmycj6]{
+    font-size:1.2rem;
+}
 #content[b-rxjolmycj6] {
     width: 100%;
     padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
+    background-color: hsl(218, 81%, 95%);
 }
 
 /* ---------------------------------------------------
